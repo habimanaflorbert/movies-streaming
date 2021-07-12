@@ -11,5 +11,10 @@ urlpatterns = [
       path('james',views.dashlogin, name="dashlogin"),
       path('Dashboard-home',views.dashhome, name="dashhome"),
       path('categories',views.addcat,name="addcat"),
+      path('categories/<int:pk>/',views.editcateg,name="editcateg"),
+      path('category-delete/<int:pk>/',views.delcateg,name="delcateg"),
+      #  path('admin/<int:id>/',views.section,name="admin"),
+      path('edit-movies/<int:pk>',views.editmov,name="editmov"),
+      path('add-movie',views.addmov,name="addmov"),
       path('logout',views.logout,name="logout"),
 ]

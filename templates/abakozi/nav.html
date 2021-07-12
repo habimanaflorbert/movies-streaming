@@ -30,14 +30,16 @@
             <div class="text-sm">
               <div class="bg-gray-900 text-white p-5 rounded cursor-pointer">Our Categories</div>
 
-              <a href=""><div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">Add Category</div></a>
+              <a href="{% url 'addcat' %}"><div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">Add Category</div></a>
+                
+              <a href="{% url 'addmov' %}"><div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">Add Movies</div></a>
                 
               <a href=""><div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">All Section</div></a>
-                
+                {% for dt in categ%}
               <a href=""><div class="bg-gray-900 flex justify-between items-center text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">
-                Action
+                {{dt.title}}
               </div></a>
-              
+              {%endfor%}
             </div>
       
             <div class="flex p-3 text-white bg-red-500 rounded cursor-pointer text-center text-sm">

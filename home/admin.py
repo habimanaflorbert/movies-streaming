@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Admin),
 admin.site.register(Clients),
 admin.site.register(Videos),
+admin.site.register(Category),
