@@ -93,8 +93,8 @@
 
 <img src="{{vd.image.url}}" class="w-64 mb-4" />
 
-<form method="POST" action="" enctype="multipart/form-data">
-
+<form method="POST" action="{% url 'editmovcov' vd.id%}" enctype="multipart/form-data">
+    {% csrf_token %}
     <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
         <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
           <p>

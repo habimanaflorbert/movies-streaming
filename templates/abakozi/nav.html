@@ -36,7 +36,7 @@
                 
               <a href=""><div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">All Section</div></a>
                 {% for dt in categ%}
-              <a href=""><div class="bg-gray-900 flex justify-between items-center text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">
+              <a href="{% url 'movies' dt.slug%}"><div class="bg-gray-900 flex justify-between items-center text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300">
                 {{dt.title}}
               </div></a>
               {%endfor%}

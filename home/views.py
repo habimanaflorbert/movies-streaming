@@ -135,19 +135,50 @@ def editmov(request,pk):
          link=request.POST['link']
          category=request.POST['category']
          ct=Category.objects.get(id=int(category))
-         vd.title=title
-         vd.desc=desc
-         vd.category=link
-         vd.categ=ctvd.save()
+         if Videos.objects.filter(title=title).exists():
+            msger="Already in please choose another"
+            return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'msger':msger,'vd':vd})
+         else:
+            vd.title=title
+            vd.desc=desc
+            vd.category=link
+            vd.categ=ct
+            vd.save()
+            msg="added Sucessfull"
+            return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'msg':msg,'vd':vd})
+      return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'vd':vd})
+   return redirect('/')
+
+def editmovcov(request,pk):
+   ck=Admin.objects.filter(user=request.user)
+   if ck is not None:
+      categ=Category.objects.all()
+      vd=Videos.objects.get(id=pk)
+      if request.method=='POST':
+         image=request.FILES['image']
+         vd.image=image
+         vd.save()
          msg="added Sucessfull"
          return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'msg':msg,'vd':vd})
       return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'vd':vd})
    return redirect('/')
 
+def delmov(request,pk):
+   ck=Admin.objects.filter(user=request.user)
+   if ck is not None:
+      catego=Videos.objects.get(id=pk)
+      catego.delete()
+      return redirect('addmov')
+   return redirect('/')
 
-
-
-
+def movies(request,slug):
+   ck=Admin.objects.filter(user=request.user)
+   if ck is not None:
+      categ=Category.objects.all()
+      cat=Category.objects.get(slug=slug)
+      mov=Videos.objects.filter(categ=cat)
+      return render(request,'../templates/abakozi/movies.html',{'categ':categ,'mov':mov})
+   return redirect('/')
 
 def logout(request):
     auth.logout(request)

@@ -16,5 +16,9 @@ urlpatterns = [
       #  path('admin/<int:id>/',views.section,name="admin"),
       path('edit-movies/<int:pk>',views.editmov,name="editmov"),
       path('add-movie',views.addmov,name="addmov"),
+      path('Change-cover/<int:pk>',views.editmovcov,name="editmovcov"),
+      path('delete-movie/<int:pk>',views.delmov,name="delmov"),
+      path('Movies/<slug:slug>',views.movies,name="movies"),
       path('logout',views.logout,name="logout"),
+
 ]
