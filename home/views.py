@@ -79,7 +79,7 @@ def dashlogin(request):
          auth.login(request,user)
          person=Admin.objects.get(user=request.user.id)
          
-         if person.TypeAccount== "Adin":
+         if person.TypeAccount== "Admin":
             return redirect('dashhome')
          
       messages.info(request,'Login Failed Please Fill Correct Credentals')
