@@ -23,10 +23,51 @@ def contact(request):
    return render(request,'contact.html')
 
 def signup(request):
-       return render(request,'singup.html')
+   if request.method=='POST':
+      fname=request.POST['fname'] 
+      lname=request.POST['lname']
+      username=request.POST['username']
+      dob=request.POST['dob']
+      pass1=request.POST['pass1']
+      pass2=request.POST['pass2']
+      if pass1 == pass2:
+         if User.objects.filter(email=username).exists():
+            messages.info(request,'Email is already exist taken')
+            return redirect('signup')
+         else:
+            user=User.objects.create_user(first_name=fname,last_name=lname,email=username,username=username,password=pass1)
+            user.save()
+            Clients.objects.create(TypeAccount='Client',user=user,age=dob).save()
+            msg="We have been created account please login"
+            return render(request,'singup.html',{'msg':msg})
+      else:
+         messages.info(request,'Password Not Match')
+         return redirect('signup')
+         
+   return render(request,'singup.html')
 
 def login(request):
+   if request.method=='POST':
+      userd=request.POST['username']
+      password=request.POST['pass']
+      user=auth.authenticate(username=userd,password=password)
+      print(user,"here")
+      if user is not None:
+         auth.login(request,user)
+         person=Clients.objects.get(user=request.user.id)
+         
+         if person.TypeAccount== "Client":
+            return redirect('home')
+         
+      messages.info(request,'Login Failed Please Fill Correct Credentals')
+      return redirect('login')
    return render(request,'login.html')
+
+
+      
+
+
+
 
 def dashlogin(request):
    if request.method=='POST':
@@ -50,7 +91,10 @@ def dashhome(request):
    ck=Admin.objects.filter(user=request.user)
    if ck is not None:
       categ=Category.objects.all()
-      return render(request,'../templates/abakozi/home.html',{'categ':categ})
+      users=User.objects.all().count()
+      movies=Videos.objects.all().count()
+      per=users*100/movies
+      return render(request,'../templates/abakozi/home.html',{'categ':categ,'users':users,'per':per,'movies':movies})
    return redirect('/')
 
 def addcat(request):
@@ -176,10 +220,91 @@ def movies(request,slug):
    if ck is not None:
       categ=Category.objects.all()
       cat=Category.objects.get(slug=slug)
+      nin=cat.title
       mov=Videos.objects.filter(categ=cat)
-      return render(request,'../templates/abakozi/movies.html',{'categ':categ,'mov':mov})
+      return render(request,'../templates/abakozi/movies.html',{'categ':categ,'mov':mov,'nin':nin})
+   return redirect('/')
+
+def allmv(request):
+   ck=Admin.objects.filter(user=request.user)
+   if ck is not None:
+      categ=Category.objects.all()
+      mov=Videos.objects.all()
+      return render(request,'../templates/abakozi/all.html',{'categ':categ,'mov':mov})
+   return redirect('/')
+
+
+def moreview(request,slug):
+   ck=Admin.objects.filter(user=request.user)
+   if ck is not None:
+      categ=Category.objects.all()
+      dt=Videos.objects.get(slug=slug)
+      return render(request,'../templates/abakozi/view.html',{'categ':categ,'dt':dt})
+   return redirect('/')
+
+def vwm(request,id):
+   ck=Admin.objects.filter(user=request.user)
+   if ck is not None:
+      categ=Category.objects.all()
+      dt=Videos.objects.get(id=id)
+      return render(request,'../templates/abakozi/play.html',{'categ':categ,'dt':dt})
    return redirect('/')
 
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+def home(request):
+   if str(request.user) == 'AnonymousUser':
+      return redirect('/') 
+   else:
+      categ=Category.objects.all()
+      mov=Videos.objects.all()
+      return render(request,"../templates/clients/home.html",{'categ':categ,'mov':mov})
+
+def clientmovies(request,slug):
+   if str(request.user) == 'AnonymousUser':
+      return redirect('/') 
+   else:
+      categ=Category.objects.all()
+      cat=Category.objects.get(slug=slug)
+      nin=cat.title
+      mov=Videos.objects.filter(categ=cat)
+      return render(request,'../templates/clients/movies.html',{'categ':categ,'mov':mov,'nin':nin})
+
+def moreviewclient(request,slug):
+   if str(request.user) == 'AnonymousUser':
+      return redirect('/') 
+   else:
+      categ=Category.objects.all()
+      dt=Videos.objects.get(slug=slug)
+      return render(request,'../templates/clients/view.html',{'categ':categ,'dt':dt})
+
+def vwmclient(request,slug):
+   if str(request.user) == 'AnonymousUser':
+      return redirect('/') 
+   else:
+      categ=Category.objects.all()
+      dt=Videos.objects.get(slug=slug)
+      return render(request,'../templates/clients/play.html',{'categ':categ,'dt':dt})
+
+# def editaccountpass(request):
+#    if str(request.user) != 'AnonymousUser':
+#       if request.method =='POST':
+#          cpass=request.POST['pass1']
+#          npass=request.POST['pass2']
+#          newpass=make_password(npass)
+#          dt=User.objects.get(username=request.user)
+#          cpassword=dt.password
+#          if check_password(cpass,cpassword) ==True:
+#                dt.password=newpass
+#                dt.save()
+#                auth.logout(request)
+#                return redirect('login')
+#          else:
+#                msgerror='please enter correct password'
+#                return render(request,'person/password.html',{'msgerror':msgerror})
+#       return render(request,'person/password.html')
+
+#    else:
+#       return redirect('/')

@@ -1,0 +1,77 @@
+{% include 'abakozi/nav.html'%}
+
+
+<section class="w-full p-4 overflow-auto">
+    <div class="w-full  p-4 text-md ">
+        <h3 class="text-center font-semibold text-xl">All Movies</h3>
+      <div class="flex flex-wrap">
+
+        {% for dt in mov%}
+          <div class="w-full md:w-1/4">
+        <div class="p-2">
+            <img src="{{dt.image.url}}" class="h-64 w-full ">
+            <h5 class="font-semibold">{{dt.title}}</h5>
+            <button class="w-full bg-green-700">  
+               <center> <a href="{% url 'moreview' dt.slug%}" class=" text-white w-full"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-eye text-center" viewBox="0 0 16 16">
+                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+              </svg></a> </center></button>
+
+            <div class="flex">
+                <div class="w-1/2 bg-blue-700">
+                    <button class="w-full">
+                        <a href="{% url 'editmov' dt.id%}" class="text-center text-white font-semibold">
+                    Edit
+                </a></button>
+                </div>
+                <div class="w-1/2 bg-red-700">
+                    <button class="w-full">
+                         <a href="{% url 'delmov' dt.id%}" class="w-full text-center text-white font-semibold">
+                        Delete
+                    </a></button>
+                </div>
+            </div>
+        </div>
+        </div>
+{%endfor%}
+
+      </div>
+
+
+      <div class="w-full bg-white py-2">
+        <div class=" w-full ">
+            <center>
+            <span class="step-links">
+                {% if items.has_previous %}
+                    <a href="?page=1" class="float-left py-2 px-4"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                        <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                      </svg></a>
+                    <a href="?page={{ items.previous_page_number }}">Previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ items.number }} of {{ items.paginator.num_pages }}.
+                </span>
+        
+                {% if items.has_next %}
+                    <a href="?page={{ items.next_page_number }}">Next</a>
+                    <a href="?page={{ items.paginator.num_pages }}" class="float-right py-2  px-4"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                      </svg></a>
+                {% endif %}
+            </span>
+            </center>
+        </div>
+        </div>
+
+
+
+        </div>
+        </section>
+         
+
+  </main>
+</body>
+</html>

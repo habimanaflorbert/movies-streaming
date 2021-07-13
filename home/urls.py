@@ -19,6 +19,13 @@ urlpatterns = [
       path('Change-cover/<int:pk>',views.editmovcov,name="editmovcov"),
       path('delete-movie/<int:pk>',views.delmov,name="delmov"),
       path('Movies/<slug:slug>',views.movies,name="movies"),
+      path('view-detail/<slug:slug>',views.moreview,name="moreview"),
+      path('view-movies/<int:id>',views.vwm,name="movieview"),
+      path('Home-Dash',views.home,name="home"),
       path('logout',views.logout,name="logout"),
+      path('all-Movies',views.allmv,name="allmv"),
+      path('Customer-movies/<slug:slug>',views.clientmovies,name="clientmovies"),
+      path('view-detail-client/<slug:slug>',views.moreviewclient,name="moreviewclient"),
+      path('view-movies-client/<slug:slug>',views.vwmclient,name="movieviewclient"),
 
 ]
