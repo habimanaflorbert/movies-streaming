@@ -1,7 +1,7 @@
 {% include 'abakozi/nav.html'%}
 
 
-<section class="w-full p-4">
+<section class="w-full p-4 overflow-auto h-screen">
     <div class="w-full h-64 p-4 text-md">
         
 {% if msger%}
@@ -79,18 +79,22 @@
       </div>
 
 
-      <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
-        <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
-          <p>
-            <label for="username" class="bg-white text-gray-600 px-1">Description *</label>
-          </p>
-        </div>
-        <p>
-          <textarea name="desc" rows="4" class="py-1 px-1 outline-none block h-full w-full"></textarea>
-        </p>
-      </div>
+
 
     </div>
+
+
+    <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1 my-6">
+      <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+        <p>
+          <label for="username" class="bg-white text-gray-600 px-1">Description *</label>
+        </p>
+      </div>
+      <p>
+        <textarea name="desc" rows="8" class="py-1 px-1 outline-none block h-full w-full"></textarea>
+      </p>
+    </div>
+
     <div class=" mt-6 pt-3">
       <button type="submit" class="rounded text-gray-100 px-3 py-2 bg-gray-600 hover:shadow-inner hover:bg-gray-700 transition-all duration-300">
         Submit
@@ -113,15 +117,15 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 	rel="stylesheet">
-<div class="flex items-center justify-center">
-	<div class="col-span-12">
-		<div class="overflow-auto lg:overflow-visible ">
-			<table class="table text-gray-400 border-separate space-y-6 text-sm">
-				<thead class="bg-gray-800 text-gray-500">
+<div class="flex ">
+	<div class="w-full">
+		<div class="w-full h-32 ">
+			<table class="w-full text-gray-400 border-separate space-y-6 text-sm " >
+				<thead class="bg-gray-800 text-gray-300">
 					<tr>
-						<th class="p-3">Title</th>
+						<th class="p-3">Name</th>
 						<th class="p-3 text-left">Category</th>
-						<th class="p-3 text-left">link</th>
+						<th class="p-3 text-left">Description</th>
 						<th class="p-3 text-left">Action</th>
 					</tr>
 				</thead>
@@ -130,21 +134,21 @@
 					<tr class="bg-gray-800">
 						<td class="p-3">
 							<div class="flex align-items-center">
-								<img class="rounded-full h-12 w-12  object-cover" src="{{dt.image.url}}" alt="unsplash image">
+								<img class="rounded-sm h-12 w-12  object-cover" src="{{dt.image.url}}" alt="unsplash image">
 								<div class="p-3">
-									<div class="">{{dt.title}}</div>
+									<div class="fonr-semibold">{{dt.title}}</div>
 								</div>
 							</div>
 						</td>
 						<td class="p-3">
 							{{dt.categ.title}}
 						</td>
-						<td class="p-3 font-bold">
-							{{dt.category}}
+						<td class="px-1 font-thin">
+							{{dt.desc|slice:150}}
 						</td>
 					
-						<td class="p-3 ">
-							<a href="#" class="text-gray-400 hover:text-gray-100 mr-2">
+						<td class="p-3 flex ">
+							<a href="{% url 'movieview' dt.id %}" class="text-gray-400 hover:text-gray-100 mr-2">
 								<i class="material-icons-outlined text-base">visibility</i>
 							</a>
 							<a href="{% url 'editmov' dt.id%}" class="text-gray-400 hover:text-gray-100  mx-2">
@@ -166,29 +170,7 @@
 		</div>
 	</div>
 </div>
-<style>
-	.table {
-		border-spacing: 0 15px;
-	}
 
-	i {
-		font-size: 1rem !important;
-	}
-
-	.table tr {
-		border-radius: 20px;
-	}
-
-	tr td:nth-child(n+5),
-	tr th:nth-child(n+5) {
-		border-radius: 0 .625rem .625rem 0;
-	}
-
-	tr td:nth-child(1),
-	tr th:nth-child(1) {
-		border-radius: .625rem 0 0 .625rem;
-	}
-</style>
         
      </div>
     </section>

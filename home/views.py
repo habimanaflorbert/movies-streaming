@@ -63,12 +63,6 @@ def login(request):
       return redirect('login')
    return render(request,'login.html')
 
-
-      
-
-
-
-
 def dashlogin(request):
    if request.method=='POST':
       userd=request.POST['username']
@@ -82,7 +76,7 @@ def dashlogin(request):
          if person.TypeAccount== "Admin":
             return redirect('dashhome')
          
-      messages.info(request,'Login Failed Please Fill Correct Credentals')
+      messages.info(request,'Login Failed Please Fill Correct Cradentails')
       return redirect('dashlogin')
   
    return render(request,'../templates/abakozi/index.html')
@@ -114,10 +108,8 @@ def addcat(request):
       return render(request,'../templates/abakozi/addcat.html',{'categ':categ,'catego':catego})
    return redirect('/')
 
-
 def editcateg(request,pk):
    ck=Admin.objects.filter(user=request.user)
-   
    if ck is not None:
       categ=Category.objects.all()
       catego=Category.objects.get(id=pk)
@@ -144,7 +136,6 @@ def delcateg(request,pk):
       return redirect('addcat')
    return redirect('/')
 
-
 def addmov(request):
    ck=Admin.objects.filter(user=request.user)
    if ck is not None:
@@ -163,7 +154,7 @@ def addmov(request):
             return render(request,'../templates/abakozi/section.html',{'categ':categ,'msger':msger,'vd':vd})
          else:
             Videos.objects.create(title=title,desc=desc,image=image,category=link,categ=ct)
-            msg="added Sucessfull"
+            msg="has added"
             return render(request,'../templates/abakozi/section.html',{'categ':categ,'msg':msg,'vd':vd})
       return render(request,'../templates/abakozi/section.html',{'categ':categ,'vd':vd})
    return redirect('/')
@@ -179,17 +170,13 @@ def editmov(request,pk):
          link=request.POST['link']
          category=request.POST['category']
          ct=Category.objects.get(id=int(category))
-         if Videos.objects.filter(title=title).exists():
-            msger="Already in please choose another"
-            return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'msger':msger,'vd':vd})
-         else:
-            vd.title=title
-            vd.desc=desc
-            vd.category=link
-            vd.categ=ct
-            vd.save()
-            msg="added Sucessfull"
-            return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'msg':msg,'vd':vd})
+         vd.title=title
+         vd.desc=desc
+         vd.category=link
+         vd.categ=ct
+         vd.save()
+         msg="added Sucessfull"
+         return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'msg':msg,'vd':vd})
       return render(request,'../templates/abakozi/editmov.html',{'categ':categ,'vd':vd})
    return redirect('/')
 
@@ -288,23 +275,29 @@ def vwmclient(request,slug):
       dt=Videos.objects.get(slug=slug)
       return render(request,'../templates/clients/play.html',{'categ':categ,'dt':dt})
 
-# def editaccountpass(request):
-#    if str(request.user) != 'AnonymousUser':
-#       if request.method =='POST':
-#          cpass=request.POST['pass1']
-#          npass=request.POST['pass2']
-#          newpass=make_password(npass)
-#          dt=User.objects.get(username=request.user)
-#          cpassword=dt.password
-#          if check_password(cpass,cpassword) ==True:
-#                dt.password=newpass
-#                dt.save()
-#                auth.logout(request)
-#                return redirect('login')
-#          else:
-#                msgerror='please enter correct password'
-#                return render(request,'person/password.html',{'msgerror':msgerror})
-#       return render(request,'person/password.html')
+def editaccountpass(request):
+   if str(request.user) != 'AnonymousUser':
+      if request.method =='POST':
+         fname=request.POST['fname']
+         lname=request.POST['lname']
+         username=request.POST['email']
+         cpass=request.POST['pass1']
+         npass=request.POST['pass2']
+         newpass=make_password(npass)
+         dt=User.objects.get(username=request.user)
+         cpassword=dt.password
+         if check_password(cpass,cpassword) ==True:
+            dt.password=newpass
+            dt.first_name=fname
+            dt.last_name=lname
+            dt.username=username
+            dt.save()
+            auth.logout(request)
+            return redirect('login')
+         else:
+            msgerror='please enter correct password'
+            return render(request,'../templates/clients/play.html',{'msgerror':msgerror})
 
-#    else:
-#       return redirect('/')
+      return render(request,'../templates/clients/play.html')
+   else:
+      return redirect('/')
